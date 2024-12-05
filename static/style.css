@@ -21,6 +21,14 @@ body {
 
 .spill {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 3%;
 }
