@@ -10,10 +10,7 @@ CREATE TABLE cookieScore (
     FOREIGN KEY (id) REFERENCES (id)
 );
 
-INSERT INTO login (navn, passord) VALUE ("Herman", "Bolla");
-
-SELECT login FROM cookieScore
-INNER JOIN 
+INSERT INTO cookieScore (navn, passord) VALUE ("Herman", "Bolla");
 
 
 
