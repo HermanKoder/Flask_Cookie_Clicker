@@ -1,16 +1,6 @@
-# import mysql.connector
+import mysql.connector as mariadb
 
-# mydb = mysql.connector.connect(
-#     host=""
-#     user=""
-#     password=""
-# )
+mariadb_connection = mariadb.connect(user='test', password='password', host = 'localhost', port='3306')
 
-# mycursor = mydb.cursor()
-
-# mycursor.execute('''hiuoijpo''')
-
-# resultat = mycursor.fetchall()
-
-# return resultat
+create_cursor = mariadb_connection.cursor()
 
