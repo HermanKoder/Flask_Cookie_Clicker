@@ -15,9 +15,6 @@ INSERT INTO cookieScore (navn, passord) VALUE ("Herman", "Bolla");
 
 
 
-
-
-
 CREATE TABLE login (
     id int NOT NULL AUTO_INCREMENT,
     navn varchar(50) NOT NULL,
