@@ -1,13 +1,10 @@
 {% extends 'base.html' %}
 {% block body %}
 <div class="spill">
-    <title>Cookie Clicker | Play</title>
-    <div>
-        <p id="showCookies">cookies</p>
-    </div>
+    <h1>Welcome, {{ user_name }}</h1>
+    <p id="showCookies">{{ cookies }} Cookies In Stock</p>
     <div>
         <img onclick="clickCookie()" src="/static/images/cookie-svgrepo-com (1).svg" alt="Clickable Cookie">
     </div>
 </div>
-<script src="/static/script.js"></script>
 {% endblock %}

@@ -6,13 +6,13 @@ app = Flask(__name__)
 app.secret_key = "your_secret_key"
 
 def get_db_connection():
-        connection = mysql.connector.connect(
-            host="10.2.4.30",
-            user="herman",
-            password="Bolla123.",
-            database="cookieDB"
-        )
-        return connection
+    connection = mysql.connector.connect(
+        host="192.168.1.92",
+        user="herman",
+        password="Bolla123.",
+        database="cookieDB"
+    )
+    return connection
 
 conn = get_db_connection()
 
@@ -33,7 +33,7 @@ def login():
         if user:
             session['user_id'] = user['id']
             session['user_name'] = user['navn']
-            return redirect('/main')  # Send brukeren til hovedsiden
+            return redirect('/main')
         else:
             return render_template('login.html', error="Invalid credentials")
     return render_template('login.html')
@@ -48,45 +48,48 @@ def register():
 
 @app.route('/registerRegister', methods=['POST'])
 def registerRegister():
-    try:
-        input1 = request.form['navn']
-        input2 = request.form['mail']
-        input3 = request.form['passord']
-
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        cursor.execute("INSERT INTO users (navn, mail, passord) VALUES (%s, %s, %s)", (input1, input2, input3))
-        conn.commit()
-    except mysql.connector.Error as err:
-        print(f"Error: {err}")
-        return "Database error occurred", 500
-    finally:
-        conn.close()
+    input1 = request.form['navn']
+    input2 = request.form['mail']
+    input3 = request.form['passord']
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO users (navn, mail, passord) VALUES (%s, %s, %s)", (input1, input2, input3))
+    conn.commit()
+    conn.close()
     return render_template('index.html')
 
 @app.route('/tabels')
 def tabels():
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM users")
-        users = cursor.fetchall()
-    except mysql.connector.Error as err:
-        print(f"Error: {err}")
-        return "Error fetching data", 500
-    finally:
-        conn.close()
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM users")
+    users = cursor.fetchall()
+    conn.close()
     return render_template('tabels.html', users=users)
 
-@app.route('/login')
-def login():
-    return render_template('login.html')
-
-
-
-@app.route("/main")
+@app.route('/main')
 def main():
-    return render_template('main.html')
+    if 'user_id' not in session:
+        return redirect('/login')
+
+    user_id = session['user_id']
+    user_name = session['user_name']
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("SELECT * FROM cookieScore WHERE user_id = %s", (user_id,))
+    score = cursor.fetchone()
+
+    if not score:
+        cursor.execute("INSERT INTO cookieScore (cookies, user_id) VALUES (%s, %s)", (0, user_id))
+        conn.commit()
+        score = {'cookies': 0}
+
+    conn.close()
+    return render_template('main.html', user_name=user_name, cookies=score['cookies'])
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)

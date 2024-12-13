@@ -1,13 +1,15 @@
-
-let Cookies = 0;
-
-printCookies()
-
-function printCookies(){
-    document.getElementById("showCookies").innerHTML = Cookies + " Cookies In Stock"
+let cookies = {{ cookies }};
+    
+function printCookies() {
+    document.getElementById("showCookies").innerHTML = cookies + " Cookies In Stock";
 }
 
-function clickCookie(){
-    Cookies = Cookies + 1
-    printCookies()
+function clickCookie() {
+    cookies += 1;
+    printCookies();
+    fetch('/update_cookies', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({cookies: cookies})
+    });
 }
