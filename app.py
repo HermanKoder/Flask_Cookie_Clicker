@@ -29,18 +29,15 @@ def index():
 
 @app.route('/register', methods=['POST'])
 def register():
-    input = request.form['name']
-    input = request.form['email']
-    input = request.form['password']
+    input1 = request.form['name']
+    input2 = request.form['email']
+    input3 = request.form['password']
  
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute(
-    "INSERT INTO Brukere (username, email, password) VALUES (%s, %s, %s)",
-    (request.form['name'], request.form['email'], request.form['password'])
-    )
+    cursor.execute("INSERT INTO Brukere (username, email, password) VALUES (%s, %s, %s)", (input1, input2, input3)))
     conn.commit()
-
+    conn.close()
    
     return render_template('register.html')
 
