@@ -1,13 +1,12 @@
 from flask import Flask, render_template, request, redirect, session
 import mysql.connector
-import sys
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key"
 
 def get_db_connection():
     connection = mysql.connector.connect(
-        host="192.168.1.92",
+        host="10.2.4.30",
         user="herman",
         password="Bolla123.",
         database="cookieDB"

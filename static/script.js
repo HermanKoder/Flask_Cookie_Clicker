@@ -1,4 +1,4 @@
-let cookies = {{ cookies }};
+let cookies = 0;
     
 function printCookies() {
     document.getElementById("showCookies").innerHTML = cookies + " Cookies In Stock";
